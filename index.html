@@ -220,6 +220,9 @@
       overflow: hidden; position: relative;
     }
     .assessor-photo svg { opacity: 0.35; }
+    .assessor-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .assessor-photo.photo-loaded .photo-placeholder-text { display: none; }
+    .assessor-photo.photo-loaded svg { display: none; }
     .photo-placeholder-text {
       position: absolute; bottom: 0; left: 0; right: 0;
       background: rgba(27,108,168,0.85); color: #fff;
@@ -528,7 +531,7 @@
           <div class="hero-card-name" id="card-name">Kevin</div>
           <div class="hero-card-title">Domestic Energy Assessor</div>
           <div class="card-stats">
-            <div class="stat-box"><strong id="stat-years">—</strong><span>Years Experience</span></div>
+            <div class="stat-box"><strong id="stat-years">Details on request</strong><span>Experience</span></div>
             <div class="stat-box"><strong id="stat-price">£—</strong><span>From (EPC)</span></div>
           </div>
           <div class="card-btns">
@@ -888,8 +891,12 @@
       const avail  = row['Availability']       || 'Same and next-day appointments available';
       const towns  = row['Towns']              || '';
       const extra  = row['Additional Areas']   || '';
+      const photo = row['Headshot'] || row['Photo'] || 'https://i.postimg.cc/FHHffvvT/att-TVst-SGY-kl-I8s0O-9EQt-LCMg-AKs-Jk6CIFn-Qatk-KWh1w.jpg';
       const heroPhoto = document.getElementById('hero-photo');
-      if (heroPhoto) heroPhoto.alt = name + ', domestic energy assessor';
+      if (heroPhoto) {
+        heroPhoto.alt = name + ', domestic energy assessor';
+        if (/^https:\/\//i.test(photo)) heroPhoto.src = photo;
+      }
 
       const allTowns  = buildAreaGrid(towns, extra);
       const shortArea = shortTownList(allTowns);
@@ -1093,6 +1100,7 @@
         set('stat-price', 'Ask us');
         set('hdr-name', 'South East EPC');
         set('card-name', 'Kevin');
+        set('stat-years', 'Details on request');
         set('hdr-phone-num', fallbackPhone);
         set('card-phone-text', fallbackPhone);
         set('contact-call-link', fallbackPhone);
