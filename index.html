@@ -23,7 +23,7 @@
   <title id="meta-title">EPC Certificates | Energy Assessor</title>
   <meta name="description" id="meta-desc" content="Fast, affordable EPC certificates for sales and rentals. Fully accredited domestic energy assessor. Same and next-day appointments available." />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="#" id="meta-canonical" />
+  <link rel="canonical" href="https://southeastepc.co.uk/" id="meta-canonical" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -888,6 +888,8 @@
       const shortArea = shortTownList(allTowns);
 
       // Meta & schema
+      const canonical = document.getElementById('meta-canonical');
+      if (canonical) canonical.href = 'https://southeastepc.co.uk/';
       document.title = `EPC Certificates ${shortArea} | ${name}`;
       const md = document.getElementById('meta-desc');
       if (md) md.content = `Fast, affordable EPC certificates in ${shortArea}. From £${priceN}. Fully accredited assessor. Call ${phone}.`;
