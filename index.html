@@ -1060,10 +1060,10 @@
 
       // Settings
       try {
-        if (settingsRes.status === 'fulfilled') {
+        if (settingsRes.status === 'fulfilled' && settingsRes.value.ok) {
           const text = await settingsRes.value.text();
           const row  = parseCSV(text);
-          if (row && Object.values(row).some(v => v)) {
+          if (row && row['Phone'] && row['Email'] && row['Name']) {
             populate(row);
             settingsLoaded = true;
           }
