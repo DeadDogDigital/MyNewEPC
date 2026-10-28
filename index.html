@@ -113,19 +113,32 @@
     .btn-wa:hover { background: #1fba59; }
     .btn-group { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 
-    /* ── LOADING ── */
-    #loading-screen {
-      position: fixed; inset: 0; z-index: 9999;
-      background: var(--ink);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 20px; transition: opacity 0.5s;
+    /* ── ENQUIRY-FIRST REFINEMENTS ── */
+    #hero { min-height: auto; }
+    .hero-card { box-shadow: 0 18px 48px rgba(0,0,0,0.18); }
+    .btn-call { box-shadow: 0 8px 22px rgba(26,122,74,0.22); }
+    .btn:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid #F0C66B; outline-offset: 3px;
     }
-    #loading-screen.hidden { opacity: 0; pointer-events: none; }
-    .loader-logo { font-family: var(--ff-display); font-size: 1.4rem; color: #fff; font-weight: 700; }
-    .loader-bar { width: 200px; height: 3px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
-    .loader-fill { height: 100%; width: 0; background: var(--accent); border-radius: 3px; animation: load 1.4s ease forwards; }
-    @keyframes load { to { width: 100%; } }
-    .loader-text { color: var(--ink-light); font-size: 0.85rem; }
+    @media (max-width: 600px) {
+      .container { padding-left: 20px; padding-right: 20px; }
+      section { padding: 64px 0; }
+      #hero { padding: 104px 0 54px; }
+      .hero-inner { gap: 30px; }
+      .hero-sub { font-size: 1rem; }
+      .price-badge { max-width: 100%; padding: 10px 15px; gap: 8px; }
+      .price-badge strong { font-size: 1.12rem; }
+      .btn-group { align-items: stretch; }
+      .btn-group .btn { width: 100%; justify-content: center; white-space: normal; }
+      .hero-card { padding: 24px; }
+      .sticky-header { padding: 10px 16px; gap: 12px; }
+      .header-brand { font-size: .92rem; }
+      .header-phone { padding: 10px 12px; font-size: .82rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
 
     /* ── STICKY HEADER ── */
     .sticky-header {
@@ -207,6 +220,9 @@
       overflow: hidden; position: relative;
     }
     .assessor-photo svg { opacity: 0.35; }
+    .assessor-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .assessor-photo.photo-loaded .photo-placeholder-text { display: none; }
+    .assessor-photo.photo-loaded svg { display: none; }
     .photo-placeholder-text {
       position: absolute; bottom: 0; left: 0; right: 0;
       background: rgba(27,108,168,0.85); color: #fff;
@@ -460,22 +476,15 @@
 </head>
 <body>
 
-  <!-- LOADING -->
-  <div id="loading-screen">
-    <div class="loader-logo" id="loader-name">EPC Assessor</div>
-    <div class="loader-bar"><div class="loader-fill"></div></div>
-    <div class="loader-text">Loading your site…</div>
-  </div>
-
   <!-- HEADER -->
   <header class="sticky-header">
     <div class="header-brand">
-      <span id="hdr-name">EPC Assessor</span>
+      <span id="hdr-name">South East EPC</span>
       Domestic Energy Assessor
     </div>
     <a href="tel:07494174056" id="hdr-call" class="header-phone" aria-label="Call now">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6.29 6.29l.96-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      <span id="hdr-phone-num">Loading…</span>
+      <span id="hdr-phone-num">07494 174056</span>
     </a>
   </header>
 
@@ -488,23 +497,23 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
             Fully Qualified &amp; Government Accredited
           </div>
-          <h1 class="fu d1">EPC Certificates<br><em id="hero-area">In Your Area</em></h1>
+          <h1 class="fu d1">EPC Certificates<br><em id="hero-area">South East Kent</em></h1>
           <div class="hero-location fu d2">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span id="hero-towns-short">Loading…</span>
+            <span id="hero-towns-short">Ashford, Hastings &amp; surrounding areas</span>
           </div>
           <p class="hero-sub fu d2">Fast, affordable energy performance certificates for sales, rentals &amp; compliance. <span id="hero-availability">Same and next-day appointments available.</span></p>
           <div class="price-badge fu d3">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8922A" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            <strong id="hero-price">Check current price</strong>
-            <span>· Competitive local pricing</span>
+            <strong id="hero-price">Call for current price</strong>
+            <span>· Ask for a quote</span>
           </div>
           <div class="btn-group fu d4">
             <a href="tel:07494174056" id="hero-call-btn" class="btn btn-call">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6.29 6.29l.96-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              Call Now
+              <span id="hero-call-label">Call Kevin</span>
             </a>
-            <a href="#contact" class="btn btn-outline">Get a Free Quote</a>
+            <a href="#contact" class="btn btn-outline">Request a Quote</a>
           </div>
           <div class="trust-row fu d5">
             <span class="trust-chip"><span class="dot"></span> Accredited &amp; Insured</span>
@@ -515,19 +524,20 @@
         <!-- Profile Card -->
         <div class="hero-card fu d3">
           <div class="assessor-photo" id="hero-photo-wrap">
+            <img id="hero-photo" src="https://i.postimg.cc/FHHffvvT/att-TVst-SGY-kl-I8s0O-9EQt-LCMg-AKs-Jk6CIFn-Qatk-KWh1w.jpg" alt="Kevin, domestic energy assessor" loading="eager" decoding="async" onload="this.parentElement.classList.add('photo-loaded')" onerror="this.remove()" />
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <div class="photo-placeholder-text">ADD PHOTO</div>
           </div>
-          <div class="hero-card-name" id="card-name">Your Name</div>
+          <div class="hero-card-name" id="card-name">Kevin</div>
           <div class="hero-card-title">Domestic Energy Assessor</div>
           <div class="card-stats">
-            <div class="stat-box"><strong id="stat-years">—</strong><span>Years Experience</span></div>
+            <div class="stat-box"><strong id="stat-years">Details on request</strong><span>Experience</span></div>
             <div class="stat-box"><strong id="stat-price">£—</strong><span>From (EPC)</span></div>
           </div>
           <div class="card-btns">
             <a href="tel:07494174056" id="card-call-btn" class="btn btn-call">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6.29 6.29l.96-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <span id="card-phone-text">Call Now</span>
+              <span id="card-phone-text">07494 174056</span>
             </a>
             <a href="https://wa.me/447494174056" id="card-wa-btn" class="btn btn-wa">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
@@ -881,8 +891,12 @@
       const avail  = row['Availability']       || 'Same and next-day appointments available';
       const towns  = row['Towns']              || '';
       const extra  = row['Additional Areas']   || '';
-      const photo = 'https://i.postimg.cc/FHHffvvT/att-TVst-SGY-kl-I8s0O-9EQt-LCMg-AKs-Jk6CIFn-Qatk-KWh1w.jpg';
+      const photo = row['Headshot'] || row['Photo'] || 'https://i.postimg.cc/FHHffvvT/att-TVst-SGY-kl-I8s0O-9EQt-LCMg-AKs-Jk6CIFn-Qatk-KWh1w.jpg';
       const heroPhoto = document.getElementById('hero-photo');
+      if (heroPhoto) {
+        heroPhoto.alt = name + ', domestic energy assessor';
+        if (/^https:\/\//i.test(photo)) heroPhoto.src = photo;
+      }
 
       const allTowns  = buildAreaGrid(towns, extra);
       const shortArea = shortTownList(allTowns);
@@ -908,15 +922,13 @@
         "openingHours": "Mo-Sa 08:00-18:00"
       });
 
-      // Loader name
-      set('loader-name', name);
-
       // Header
       set('hdr-name', name);
       set('hdr-phone-num', phone);
 
       // Hero
-      set('hero-area', shortArea || 'Your Area');
+      set('hero-area', shortArea || 'South East Kent');
+      set('hero-call-label', 'Call ' + name);
       set('hero-towns-short', shortArea);
       set('hero-availability', avail);
       set('hero-price', price);
@@ -1049,8 +1061,7 @@
     let settingsLoaded = false;
 
     async function init() {
-      const loader = document.getElementById('loading-screen');
-      const bust   = '&cachebust=' + Date.now();
+      const bust = '&cachebust=' + Date.now();
 
       // Fetch both in parallel
       const [settingsRes, blogRes] = await Promise.allSettled([
@@ -1087,6 +1098,9 @@
         set('hero-price', 'Call for current price');
         set('bar-price', 'Call for current price');
         set('stat-price', 'Ask us');
+        set('hdr-name', 'South East EPC');
+        set('card-name', 'Kevin');
+        set('stat-years', 'Details on request');
         set('hdr-phone-num', fallbackPhone);
         set('card-phone-text', fallbackPhone);
         set('contact-call-link', fallbackPhone);
@@ -1094,6 +1108,7 @@
         set('mob-call-label', 'Tap to Call: ' + fallbackPhone);
         setLinks(fallbackPhone, fallbackEmail);
         set('hero-area', 'Ashford, Hastings & surrounding areas');
+        set('hero-call-label', 'Call Kevin');
         const title = document.getElementById('meta-title');
         document.title = 'EPC Certificates | South East EPC';
         const md = document.getElementById('meta-desc');
@@ -1102,7 +1117,7 @@
 
       // Always set year fallback
       const yr = document.getElementById('yr'); if (yr && !yr.textContent) yr.textContent = new Date().getFullYear();
-      setTimeout(() => loader.classList.add('hidden'), 700);
+      // The page is already visible; Google Sheets values hydrate as soon as they arrive.
     }
 
     // ================================================================
