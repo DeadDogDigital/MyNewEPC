@@ -1070,7 +1070,14 @@
           const rows = parseCSVAll(text);
           if (rows.length) populateBlog(rows);
         }
-      }    // ================================================================
+      } catch(e) { console.warn('Blog CSV error', e); }
+
+      // Always set year fallback
+      const yr = document.getElementById('yr'); if (yr && !yr.textContent) yr.textContent = new Date().getFullYear();
+      setTimeout(() => loader.classList.add('hidden'), 700);
+    }
+
+    // ================================================================
     // FORM — submit to Netlify Forms and only show success on HTTP success
     // ================================================================
     const form = document.getElementById('enquiry-form');
