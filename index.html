@@ -713,7 +713,9 @@
           <div class="form-wrap">
             <div class="form-title">Request a Free Quote</div>
             <div class="form-sub">No obligation — I'll get back to you within a few hours.</div>
-            <form id="enquiry-form" novalidate>
+            <form id="enquiry-form" name="epc-enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+              <input type="hidden" name="form-name" value="epc-enquiry" />
+              <div style="display:none;"><label>Leave this field empty: <input name="bot-field" /></label></div>
               <div class="fg"><label for="f-name">Your Name *</label><input type="text" id="f-name" name="name" placeholder="e.g. John Smith" required autocomplete="name" /></div>
               <div class="fg-row">
                 <div class="fg"><label for="f-phone">Phone Number *</label><input type="tel" id="f-phone" name="phone" placeholder="07xxx xxxxxx" required autocomplete="tel" /></div>
@@ -1076,8 +1078,7 @@
     }
 
     // ================================================================
-    // FORM — wire up to Formspree or client's email handler
-    // Replace 'YOUR_FORMSPREE_ID' with their actual endpoint
+    // FORM — submit to Netlify Forms and only show success on HTTP success
     // ================================================================
     const form = document.getElementById('enquiry-form');
     if (form) {
@@ -1086,21 +1087,38 @@
         const n  = form.querySelector('#f-name').value.trim();
         const p  = form.querySelector('#f-phone').value.trim();
         const pc = form.querySelector('#f-postcode').value.trim();
-        if (!n || !p || !pc) { alert('Please fill in your name, phone number and property postcode.'); return; }
+        if (!n || !p || !pc) {
+          alert('Please fill in your name, phone number and property postcode.');
+          return;
+        }
 
-        // ── WIRE UP: replace URL below with client's Formspree endpoint ──
-        // fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
-        //   method: 'POST', body: new FormData(form),
-        //   headers: { 'Accept': 'application/json' }
-        // }).then(() => { form.style.display='none'; document.getElementById('form-success').style.display='block'; });
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending…';
 
-        // Placeholder until wired up:
-        form.style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
+        try {
+          const formData = new FormData(form);
+          formData.set('form-name', 'epc-enquiry');
+          const response = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+          });
+          if (!response.ok) throw new Error('Submission failed with status ' + response.status);
+
+          form.style.display = 'none';
+          document.getElementById('form-success').style.display = 'block';
+        } catch (error) {
+          console.error('Enquiry submission failed', error);
+          alert('Sorry, your enquiry could not be sent. Please call ' + (document.getElementById('hdr-phone-num')?.textContent || 'us') + ' or email mynewepc@yahoo.com instead.');
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+        }
       });
     }
 
-    init();
+        init();
   </script>
 
 </body>
