@@ -869,8 +869,8 @@
     // POPULATE SITE SETTINGS
     // ================================================================
     function populate(row) {
-      const price  = row['Starting Price'] ? 'From £' + row['Starting Price'].replace(/[£from\s]/gi,'') : 'From £XX';
-      const priceN = row['Starting Price'] ? row['Starting Price'].replace(/[£from\s]/gi,'') : 'XX';
+      const price  = row['Starting Price'] ? 'From £' + row['Starting Price'].replace(/[£from\s]/gi,'') : 'Contact for a quote';
+      const priceN = row['Starting Price'] ? row['Starting Price'].replace(/[£from\s]/gi,'') : '';
       const name   = row['Name']               || 'Your Name';
       const phone  = row['Phone']              || '';
       const email  = row['Email']              || '';
@@ -892,9 +892,9 @@
       if (canonical) canonical.href = 'https://southeastepc.co.uk/';
       document.title = `EPC Certificates ${shortArea} | ${name}`;
       const md = document.getElementById('meta-desc');
-      if (md) md.content = `Fast, affordable EPC certificates in ${shortArea}. From £${priceN}. Fully accredited assessor. Call ${phone}.`;
+      if (md) md.content = `Fast, affordable EPC certificates in ${shortArea}. ${priceN ? 'From £' + priceN : 'Contact for a quote'}. Fully accredited assessor. Call ${phone}.`;
       const ot = document.getElementById('og-title'); if (ot) ot.content = `EPC Certificates ${shortArea} | ${name}`;
-      const od = document.getElementById('og-desc');  if (od) od.content = `From £${priceN}. Accredited DEA. ${phone}`;
+      const od = document.getElementById('og-desc');  if (od) od.content = `${priceN ? 'From £' + priceN : 'Contact for a quote'}. Accredited DEA. ${phone}`;
 
       // Local business schema
       const schema = document.getElementById('schema-lb');
@@ -926,7 +926,7 @@
       set('card-name', name);
       set('card-phone-text', phone);
       set('stat-years', years);
-      set('stat-price', '£' + priceN);
+      set('stat-price', priceN ? '£' + priceN : 'Ask us');
       set('card-accred', '🛡️  ' + accred + ' · Reg: ' + regNo);
 
       // Trust bar
