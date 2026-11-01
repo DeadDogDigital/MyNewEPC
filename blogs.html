@@ -460,7 +460,15 @@
 
     function getPostParam() {
       var params = new URLSearchParams(window.location.search);
-      return params.get('post') || '';
+      var querySlug = params.get('post');
+      if (querySlug) return querySlug;
+      var pathMatch = window.location.pathname.match(/^\/blog\/([^/]+)\/?$/);
+      return pathMatch ? decodeURIComponent(pathMatch[1]) : '';
+    }
+
+    function getPostSlugFromPath(pathname) {
+      var match = pathname.match(/^\/blog\/([^/]+)\/?$/);
+      return match ? decodeURIComponent(match[1]) : '';
     }
 
     // ================================================================
@@ -491,7 +499,7 @@
 
     function applyPostMeta(post) {
       var slug    = slugify(post.title);
-      var pageUrl = 'https://southeastepc.co.uk/blogs.html?post=' + encodeURIComponent(slug);
+      var pageUrl = 'https://southeastepc.co.uk/blog/' + encodeURIComponent(slug) + '/';
       var title   = post.title + ' | ' + STATE.businessName;
       var desc    = post.excerpt || post.title;
       document.title = title;
@@ -534,7 +542,7 @@
       list.innerHTML = posts.map(function(post, idx) {
         var slug       = slugify(post.title) || ('post-' + idx);
         var hasContent = post.blog && post.blog.trim().length > 0;
-        var postUrl    = 'blogs.html?post=' + slug;
+        var postUrl    = '/blog/' + encodeURIComponent(slug) + '/';
         return [
           '<article class="blog-post" id="' + slug + '">',
             '<div class="post-header">',
@@ -592,11 +600,11 @@
     // ROUTER
     // ================================================================
     function route() {
-      // Redirect legacy hash URLs to ?post= equivalent
+      // Support legacy hash and query URLs while using clean /blog/slug/ URLs for new links
       if (window.location.hash && !getPostParam()) {
         var hashSlug = window.location.hash.replace('#', '');
         if (hashSlug) {
-          history.replaceState({ post: hashSlug }, '', window.location.pathname + '?post=' + hashSlug);
+          history.replaceState({ post: hashSlug }, '', '/blog/' + encodeURIComponent(hashSlug) + '/');
         }
       }
 
@@ -629,20 +637,18 @@
       var anchor = e.target.closest('a[href]');
       if (!anchor) return;
       var href = anchor.getAttribute('href') || '';
-      if (href.indexOf('blogs.html') === -1) return;
-
       var url  = new URL(anchor.href, window.location.href);
-      var slug = url.searchParams.get('post');
+      var isBlogPost = /^\/blog\/[^/]+\/?$/.test(url.pathname);
+      var isBlogList = url.pathname.endsWith('/blogs.html') || url.pathname === '/blogs.html';
 
-      if (slug) {
+      if (isBlogPost) {
         e.preventDefault();
-        history.pushState({ post: slug }, '', url.pathname + '?post=' + slug);
+        history.pushState({ post: getPostSlugFromPath(url.pathname) }, '', url.pathname);
         route();
         window.scrollTo(0, 0);
-      } else if (!url.search && url.pathname === window.location.pathname) {
-        // Back to list link
+      } else if (isBlogList && !url.search) {
         e.preventDefault();
-        history.pushState({ post: null }, '', url.pathname);
+        history.pushState({ post: null }, '', '/blogs.html');
         route();
         window.scrollTo(0, 0);
       }
