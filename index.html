@@ -865,7 +865,22 @@
       if (!grid) return [];
       const allTowns = (townsRaw + (extraRaw ? ', ' + extraRaw : ''))
         .split(/[,\n]+/).map(t => t.trim()).filter(Boolean);
-      grid.innerHTML = allTowns.map(t => `<div class="area-chip">${t}</div>`).join('');
+      const pageLinks = {
+        'Ashford': 'epc-Ashford.html', 'Dymchurch': 'epc-Dymchurch.html',
+        'Hamstreet': 'epc-Hamstreet.html', 'Hastings': 'epc-Hastings.html',
+        'Lydd': 'epc-Lydd.html', "St Mary's Bay": 'epc-StMarysBay.html',
+        'Bexhill': 'epc-bexhill.html', 'Bexhill-on-Sea': 'epc-bexhill.html',
+        'New Romney': 'epc-new-romney.html', 'Rye': 'epc-rye.html',
+        'Tenterden': 'epc-tenterden.html'
+      };
+      grid.replaceChildren();
+      allTowns.forEach(function(town) {
+        var item = document.createElement(pageLinks[town] ? 'a' : 'span');
+        item.className = 'area-chip';
+        item.textContent = town;
+        if (pageLinks[town]) item.href = pageLinks[town];
+        grid.appendChild(item);
+      });
       return allTowns;
     }
 
