@@ -6,7 +6,7 @@
   <title>EPC Advice &amp; News | Energy Performance Certificate Tips</title>
   <meta name="description" id="meta-desc" content="Useful advice for homeowners, landlords and estate agents on EPC certificates, energy efficiency and property compliance." />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" id="meta-canonical" href="blogs.html" />
+  <link rel="canonical" id="meta-canonical" href="https://southeastepc.co.uk/blogs.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="article" />
@@ -474,7 +474,7 @@
     function resetToListMeta() {
       var baseTitle = 'EPC Advice & News | Energy Performance Certificate Tips';
       var baseDesc  = 'Useful advice for homeowners, landlords and estate agents on EPC certificates, energy efficiency and property compliance.';
-      var baseUrl   = window.location.origin + window.location.pathname;
+      var baseUrl   = 'https://southeastepc.co.uk/blogs.html';
       document.title = baseTitle;
       setAttr('meta-desc',      'content', baseDesc);
       setAttr('meta-canonical', 'href',    baseUrl);
@@ -491,7 +491,7 @@
 
     function applyPostMeta(post) {
       var slug    = slugify(post.title);
-      var pageUrl = window.location.origin + window.location.pathname + '?post=' + slug;
+      var pageUrl = 'https://southeastepc.co.uk/blogs.html?post=' + encodeURIComponent(slug);
       var title   = post.title + ' | ' + STATE.businessName;
       var desc    = post.excerpt || post.title;
       document.title = title;
